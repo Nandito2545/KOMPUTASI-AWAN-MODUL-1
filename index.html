@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Praktikum Komputasi Awan - Nandito Maulana Yedikar</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+
+    <style>
+        /* --- CSS VARIABLES (TELKOM UNIVERSITY THEME) --- */
+        :root {
+            --telu-red: #be1e2d;         /* Merah utama Telkom */
+            --telu-dark-red: #8a1520;    /* Merah gelap untuk kedalaman */
+            --dark-bg: #0a0a0a;          /* Latar belakang sangat gelap */
+            --glass-bg: rgba(20, 20, 20, 0.7);
+            --glass-border: rgba(190, 30, 45, 0.25); /* Border merah transparan */
+            --text-main: #f8fafc;
+            --text-muted: #a1a1aa;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--dark-bg);
+            color: var(--text-main);
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* --- ANIMATED BACKGROUND (CLOUD / DATA THEME) --- */
+        .bg-orbs {
+            position: fixed;
+            top: 0; left: 0; width: 100vw; height: 100vh;
+            z-index: -1;
+            overflow: hidden;
+            background: radial-gradient(circle at top right, #1a1a1a, var(--dark-bg));
+        }
+
+        .orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(90px);
+            opacity: 0.4;
+            animation: float 10s infinite alternate ease-in-out;
+        }
+
+        .orb-1 { width: 450px; height: 450px; background: var(--telu-red); top: -10%; left: -10%; }
+        .orb-2 { width: 550px; height: 550px; background: var(--telu-dark-red); bottom: -20%; right: -10%; animation-delay: -5s; }
+
+        @keyframes float {
+            0% { transform: translateY(0) scale(1); }
+            100% { transform: translateY(50px) scale(1.1); }
+        }
+
+        /* --- HEADER / NAVBAR --- */
+        header {
+            position: fixed;
+            top: 0; width: 100%;
+            padding: 1rem 5%;
+            background: rgba(10, 10, 10, 0.85);
+            backdrop-filter: blur(12px);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 100;
+            border-bottom: 1px solid var(--glass-border);
+        }
+
+        .university-brand {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .telu-logo {
+            height: 50px;
+            background-color: white; /* Dipertahankan agar logo tetap kontras */
+            padding: 5px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .header-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.2rem;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            color: var(--text-main);
+        }
+
+        nav ul {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        nav a {
+            color: var(--text-main);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: color 0.3s;
+        }
+
+        nav a:hover { color: var(--telu-red); }
+
+        /* --- HERO SECTION (STUDENT IDENTITY) --- */
+        #hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 0 20px;
+            padding-top: 80px;
+        }
+
+        .identity-card {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            padding: 3.5rem 4rem;
+            border-radius: 20px;
+            backdrop-filter: blur(16px);
+            box-shadow: 0 25px 50px -12px rgba(190, 30, 45, 0.15); /* Shadow kemerahan */
+            animation: slideUp 1s ease-out;
+            max-width: 850px;
+            width: 100%;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Aksen garis merah di atas card */
+        .identity-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 4px;
+            background: linear-gradient(90deg, var(--telu-red), var(--telu-dark-red));
+        }
+
+        .course-name {
+            color: var(--telu-red);
+            font-weight: 600;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 1rem;
+            font-size: 1rem;
+        }
+
+        .student-name {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 3.5rem;
+            line-height: 1.2;
+            margin-bottom: 0.5rem;
+            color: var(--text-main);
+        }
+
+        .student-nim {
+            font-size: 2rem;
+            font-family: monospace;
+            color: #ff4d4d; /* Warna NIM sedikit lebih terang agar menonjol */
+            margin-bottom: 1.5rem;
+            font-weight: bold;
+            letter-spacing: 1px;
+        }
+
+        .department {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+            margin-bottom: 0;
+        }
+
+        /* --- CONTENT SECTION (ASSIGNMENT DETAILS) --- */
+        #content {
+            padding: 5rem 5%;
+        }
+
+        .section-title {
+            text-align: center;
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+        }
+
+        .section-title span {
+            color: var(--telu-red);
+        }
+
+        .grid-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .card {
+            background: linear-gradient(145deg, rgba(25, 25, 25, 0.8), rgba(10, 10, 10, 0.9));
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 2.5rem;
+            transition: transform 0.3s, box-shadow 0.3s, border-color 0.3s;
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(190, 30, 45, 0.15);
+            border-color: var(--telu-red);
+        }
+
+        .card-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+            display: inline-block;
+            background: rgba(190, 30, 45, 0.1);
+            padding: 15px;
+            border-radius: 12px;
+        }
+
+        .card h3 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.4rem;
+            margin-bottom: 1rem;
+            color: var(--text-main);
+        }
+
+        .card p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        /* --- FOOTER --- */
+        footer {
+            text-align: center;
+            padding: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            background: #050505;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        /* --- KEYFRAMES --- */
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(40px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* --- RESPONSIVE --- */
+        @media (max-width: 768px) {
+            .student-name { font-size: 2.2rem; }
+            .student-nim { font-size: 1.5rem; }
+            .identity-card { padding: 2.5rem 1.5rem; }
+            nav ul { display: none; }
+            .header-title { display: none; /* Sembunyikan teks TelU di layar kecil agar tidak penuh */ }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="bg-orbs">
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+    </div>
+
+    <header>
+        <div class="university-brand">
+            <img src="https://smktelkom-pwt.sch.id/wp-content/uploads/2018/10/logo-telkom-university-1024x439.jpg" alt="Logo Telkom University" class="telu-logo">
+        </div>
+        <nav>
+            <ul>
+                <li><a href="#hero">Identitas</a></li>
+                <li><a href="#content">Materi Praktikum</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section id="hero">
+        <div class="identity-card">
+            <div class="course-name">Tugas Praktikum Komputasi Awan</div>
+            <h1 class="student-name">Nandito Maulana Yedikar</h1>
+            <div class="student-nim">102042300053</div>
+            <p class="department">Sistem Informasi | Fakultas Rekayasa Industri</p>
+        </div>
+    </section>
+
+    <section id="content">
+        <h2 class="section-title">Layanan <span>Cloud Computing</span></h2>
+        <div class="grid-cards">
+            <div class="card">
+                <span class="card-icon">🖥️</span>
+                <h3>Infrastructure as a Service</h3>
+                <p>Layanan cloud yang menyediakan sumber daya komputasi virtual melalui internet. Memungkinkan pengguna untuk menyewa server, penyimpanan, dan jaringan tanpa harus membeli perangkat keras fisik.</p>
+            </div>
+            <div class="card">
+                <span class="card-icon">⚙️</span>
+                <h3>Platform as a Service</h3>
+                <p>Layanan yang menyediakan platform dan lingkungan bagi developer untuk membangun, menguji, dan mengelola aplikasi perangkat lunak tanpa memikirkan infrastruktur dasar di baliknya.</p>
+            </div>
+            <div class="card">
+                <span class="card-icon">☁️</span>
+                <h3>Software as a Service</h3>
+                <p>Distribusi perangkat lunak di mana aplikasi dihosting oleh penyedia layanan dan tersedia untuk pelanggan melalui internet, seperti Google Workspace atau platform analisis data cloud.</p>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2026 Nandito Maulana Yedikar (102042300053) - Praktikum Komputasi Awan.</p>
+    </footer>
+
+</body>
+</html>
